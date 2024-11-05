@@ -1,10 +1,8 @@
-﻿
-namespace Simulator;
+﻿namespace Simulator;
 
 public class Elf : Creature
 {
-    public Elf(){ } //pusty konstruktor bezparametrowy
-
+    public Elf() { } 
     private int _agility;
 
     public int Agility
@@ -12,23 +10,15 @@ public class Elf : Creature
         get => _agility;
         set
         {
-            if (value < 0)
-            {
-                _agility = 0;
-            }
-            else if (value > 10)
-            {
-                _agility = 10;
-            }
-            else
-            {
-                _agility = value;
-            };
+            _agility = Validator.Limiter(value, 0, 10); 
         }
     }
-    public Elf(string name, int level=1, int agility=0) :base(name,level)
-    {   
-        Agility = agility;
+
+    public Elf(string name, int level = 1, int agility = 0) : base(name, level)
+    {
+        Name = Validator.Shortener(name, 3, 25, '#'); 
+        Level = Validator.Limiter(level, 1, 10); 
+        Agility = agility; 
     }
 
     private int singCount = 0;
@@ -42,12 +32,11 @@ public class Elf : Creature
         }
     }
 
-    public override int Power
-    {
-        get { return 8 * Level + 2 * Agility; }
-    }
-     
-public override void SayHi() => Console.WriteLine(
-    $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}."
-);
+    public override int Power => 8 * Level + 2 * Agility;
+
+    public override string Info => $"{Name} [{Level}][{Agility}]";
+
+    public override void SayHi() => Console.WriteLine(
+        $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}."
+    );
 }

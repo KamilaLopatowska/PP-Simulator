@@ -2,8 +2,7 @@
 
 public class Orc : Creature
 {
-    public Orc() { } //pusty konstruktor bezparametrowy
-
+    public Orc() { } 
     private int _rage;
 
     public int Rage
@@ -11,24 +10,15 @@ public class Orc : Creature
         get => _rage;
         set
         {
-            if (value < 0)
-            {
-                _rage = 0;
-            }
-            else if (value > 10)
-            {
-                _rage = 10;
-            }
-            else
-            {
-                _rage = value;
-            };
+            _rage = Validator.Limiter(value, 0, 10);
         }
     }
 
-    public Orc(string name, int level=1, int rage=0):base(name,level)
+    public Orc(string name, int level = 1, int rage = 0) : base(name, level)
     {
-        Rage = rage;
+        Name = Validator.Shortener(name, 3, 25, '#'); 
+        Level = Validator.Limiter(level, 1, 10); 
+        Rage = rage; 
     }
 
     private int huntCount = 0;
@@ -42,11 +32,11 @@ public class Orc : Creature
         }
     }
 
-    public override int Power
-    {
-        get { return 7 * Level + 3 * Rage; }
-    }
+    public override int Power => 7 * Level + 3 * Rage;
+
+    public override string Info => $"{Name} [{Level}][{Rage}]";
+
     public override void SayHi() => Console.WriteLine(
-    $"Hi, I'm {Name}, my level is {Level}, my rage is {Rage}."
-);
+        $"Hi, I'm {Name}, my level is {Level}, my rage is {Rage}."
+    );
 }

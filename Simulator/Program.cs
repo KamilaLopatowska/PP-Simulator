@@ -5,7 +5,6 @@ internal class Program
     {
         Console.WriteLine("Starting simulator\n");
         Lab4a();
-        
     }
 
     static void Lab4a()

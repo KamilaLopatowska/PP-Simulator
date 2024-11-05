@@ -1,4 +1,5 @@
-﻿public class Animals
+﻿namespace Simulator;
+public class Animals
 {
     private string _description = "Unknown";
 
@@ -7,23 +8,7 @@
         get => _description;
         init
         {
-            value = value?.Trim() ?? "Unknown";
-
-            if (value.Length < 3)
-            {
-                value = value.PadRight(3, '#');
-            }
-            else if (value.Length > 15)
-            {
-                value = value.Substring(0, 15).TrimEnd();
-            }
-
-            if (char.IsLower(value[0]))
-            {
-                value = char.ToUpper(value[0]) + value[1..];
-            }
-
-            _description = value;
+            Validator.Shortener(_description, 3, 15, '#');
         }
     }
     public uint Size { get; set; } = 3;
