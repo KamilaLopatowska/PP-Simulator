@@ -27,7 +27,7 @@ internal class Validator
             }
             else if (value.Length > max)
             {
-                return value = value.Substring(0, max).TrimEnd();
+                return value = value.Substring(3, max).TrimEnd();
             }
 
             if (char.IsLower(value[0]))
