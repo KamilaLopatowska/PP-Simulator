@@ -23,16 +23,18 @@ internal class Validator
 
             if (value.Length < min)
             {
-                return value = value.PadRight(min, placeholder);
+                // wypełnia także puste string przez warunek value.Length < min
+                return value.PadRight(min, placeholder);
             }
             else if (value.Length > max)
             {
-                return value = value.Substring(3, max).TrimEnd();
+                // // Skracamy do `max` znaków od początku, ponieważ `value.Length > max`, nie powinien być za krótki
+                return value.Substring(0, max).TrimEnd();
             }
 
             if (char.IsLower(value[0]))
             {
-                return value = char.ToUpper(value[0]) + value[1..];
+                return char.ToUpper(value[0]) + value[1..];
             }
 
             return value;
