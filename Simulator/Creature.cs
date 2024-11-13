@@ -16,15 +16,15 @@ public abstract class Creature
     public string Name
     {
         get => _name;
-        set => _name = Validator.Shortener(value, 3, 25, '#'); 
+        set => _name = Validator.Shortener(value, 3, 25, '#');
     }
 
     public int Level
     {
         get => _level;
-        set => _level = Validator.Limiter(value, 1, 10); 
+        set => _level = Validator.Limiter(value, 1, 10);
     }
-    public abstract void SayHi();
+    public string Greeting() => $"Hi, I'm {Name}, my level is {Level}";
 
     public abstract string Info { get; }
 
@@ -37,22 +37,19 @@ public abstract class Creature
             Level++;
         }
     }
-    public void Go(Direction direction)
-    {
-        Console.WriteLine($"{Name} goes {direction.ToString().ToLower()}.");
-    }
+    public string Go(Direction direction) => $"{direction.ToString().ToLower()}";
 
-    public void Go(Direction[] directions)
+    public string[] Go(Direction[] directions)
     {
-        foreach (var direction in directions)
+        var result = new string[directions.Length];
+        for (int i =0; i < directions.Length; i++)
         {
-            Go(direction);
+            result[i] = Go(directions[i]);
         }
+        return result;
     }
-    public void Go(string directionString)
-    {
-        var directions = DirectionParser.Parse(directionString);
-        Go(directions);
-    }
+    public string[] Go(string directionString) =>
+        Go(DirectionParser.Parse(directionString));
+    
     public override string ToString() => $"{GetType().Name.ToUpper()}: {Info}";
 }

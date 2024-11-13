@@ -33,7 +33,7 @@ internal class Program
         {
             Point p1 = new Point(2, 2);
             Point p2 = new Point(6, 6);
-            Rectangle b = new Rectangle(p1, p2); 
+            Rectangle b = new (p1, p2); 
             Console.WriteLine("rect2: " + b); //(2, 2):(6, 6)
         }
         catch (ArgumentException e)
@@ -52,9 +52,9 @@ internal class Program
         }
 
         // sprawdzenie, czy prostokąt zawiera punkt
-        Rectangle d = new Rectangle(1, 1, 5, 5);
-        Point pointInside = new Point(3, 3);
-        Point pointOutside = new Point(6, 6);
+        Rectangle d = new (1, 1, 5, 5);
+        Point pointInside = new (3, 3);
+        Point pointOutside = new (6, 6);
 
         Console.WriteLine("rect4: " + d); // (1,1):(5,5)
         Console.WriteLine("Czy rect4 zawiera punkt (3,3)? " + d.Contains(pointInside)); // true
