@@ -5,6 +5,7 @@ namespace Simulator.Maps
     public class SmallSquareMap : Map
     {
         public readonly int Size;
+        private readonly Rectangle mapArea;
 
         public SmallSquareMap(int size)
         {
@@ -13,12 +14,12 @@ namespace Simulator.Maps
             else
             {
                 Size = size;
+                mapArea = new Rectangle(0, 0, Size - 1, Size - 1);
                 Console.WriteLine($"Mapa ma rozmiar {size}");
             }
         }
         public override bool Exist(Point p)
         {
-            Rectangle mapArea = new(0, 0, Size - 1, Size - 1);
             return mapArea.Contains(p);
         }
 
