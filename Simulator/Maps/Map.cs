@@ -1,10 +1,37 @@
-﻿namespace Simulator.Maps;
+﻿using System.Drawing;
+
+namespace Simulator.Maps;
 
 /// <summary>
 /// Map of points.
 /// </summary>
 public abstract class Map
 {
+    public abstract void Add(Creature creature, Point postion);
+    public abstract void Remove(Creature creature, Point position);
+
+    public abstract List<Creature>? At(int x, int y);
+
+    private readonly Rectangle mapArea;
+    protected Map(int sizeX, int sizeY)
+    {
+        if (sizeX < 5)
+        {
+            throw new ArgumentOutOfRangeException(nameof(sizeX), "Too small");
+        }
+        if (sizeY < 5)
+        {
+            throw new ArgumentOutOfRangeException(nameof(sizeY), "Too small");
+        }
+        SizeX = sizeX;
+        SizeY = sizeY;
+        mapArea = new Rectangle(0, 0, SizeX - 1, SizeY - 1);
+    }
+
+    public int SizeX { get; }
+    public int SizeY { get; }
+
+
     /// <summary>
     /// Check if give point belongs to the map.
     /// </summary>

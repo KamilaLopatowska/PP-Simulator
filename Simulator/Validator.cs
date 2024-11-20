@@ -20,17 +20,23 @@ public class Validator
         Shortener(string value, int min, int max, char placeholder){
         {
             value = value?.Trim() ?? "Unknown";
+            if (value.Length > max)
+            {
+                // // Skracamy do `max` znaków od początku, ponieważ `value.Length > max`, nie powinien być za krótki
+                
+                if (value.Substring(0, max).TrimEnd().Length < min)
+                    return value.PadRight(min, placeholder);
+                else
+                    return value.Substring(0, max).TrimEnd(); 
 
-            if (value.Length < min)
+            }
+
+            else if (value.Length < min)
             {
                 // wypełnia także puste string przez warunek value.Length < min
                 return value.PadRight(min, placeholder);
             }
-            else if (value.Length > max)
-            {
-                // // Skracamy do `max` znaków od początku, ponieważ `value.Length > max`, nie powinien być za krótki
-                return value.Substring(0, max).TrimEnd();
-            }
+
 
             if (char.IsLower(value[0]))
             {

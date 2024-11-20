@@ -14,10 +14,21 @@ namespace Simulator.Maps
             else
             {
                 Size = size;
-                mapArea = new Rectangle(0, 0, Size - 1, Size - 1);
+               
                 Console.WriteLine($"Mapa ma rozmiar {size}");
             }
         }
+
+        public override void Add(Creature creature, Point postion)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<Creature>? At(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
         public override bool Exist(Point p)
         {
             return mapArea.Contains(p);
@@ -35,5 +46,9 @@ namespace Simulator.Maps
             return Exist(nextPoint) ? nextPoint : p;
         }
 
+        public override void Remove(Creature creature, Point position)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
