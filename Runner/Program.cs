@@ -6,11 +6,7 @@ internal class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Starting simulator\n");
-        Point p = new(10, 25);
-        Console.WriteLine(p.Next(Direction.Right));          // (11, 25)
-        Console.WriteLine(p.NextDiagonal(Direction.Right));  // (11, 24)
-        Lab5a();
-        Lab5b();
+        Console.WriteLine(Validator.Shortener("a                           b", 5, 10, '#'));
     }
 
     static void Lab5a()

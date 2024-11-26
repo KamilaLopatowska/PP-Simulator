@@ -57,8 +57,18 @@ public abstract class Creature
         return result;
     }
 
-   // public string[] Go(string directionString) =>
-    //    Go(DirectionParser.Parse(directionString));
+    public string[] Go(string directionString)
+    {
+        if (string.IsNullOrWhiteSpace(directionString))
+            throw new ArgumentException("Direction string cannot be null or empty.");
+
+        var directions = DirectionParser.Parse(directionString);
+        if (directions == null || directions.Count == 0)
+            throw new ArgumentException("Direction string contains no valid directions.");
+
+        return Go(directions.ToArray());
+    }
+
 
     public override string ToString() => $"{GetType().Name.ToUpper()}: {Info}";
 }

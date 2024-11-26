@@ -16,34 +16,31 @@ public class Validator
         return value;     
     }
 
-    public static string
-        Shortener(string value, int min, int max, char placeholder){
+    public static string Shortener(string value, int min, int max, char placeholder)
+    {
+        value = value?.Trim() ?? "Unknown";
+
+        if (value.Length == 0 || value.Length < min)
         {
-            value = value?.Trim() ?? "Unknown";
-            if (value.Length > max)
-            {
-                // // Skracamy do `max` znaków od początku, ponieważ `value.Length > max`, nie powinien być za krótki
-                
-                if (value.Substring(0, max).TrimEnd().Length < min)
-                    return value.PadRight(min, placeholder);
-                else
-                    return value.Substring(0, max).TrimEnd(); 
-
-            }
-
-            else if (value.Length < min)
-            {
-                // wypełnia także puste string przez warunek value.Length < min
-                return value.PadRight(min, placeholder);
-            }
-
-
-            if (char.IsLower(value[0]))
-            {
-                return char.ToUpper(value[0]) + value[1..];
-            }
-
-            return value;
+            value = value.PadRight(min, placeholder);
         }
+        if (value.Length > max)
+        {
+            value = value.Substring(0, max).TrimEnd();
+        }
+        if (value.Length < min)
+        {
+            value = value.PadRight(min, placeholder);
+        }
+        if (!string.IsNullOrEmpty(value) && char.IsLower(value[0]))
+        {
+            value = char.ToUpper(value[0]) + value[1..];
+        }
+
+        return value;
     }
+
 }
+
+
+
