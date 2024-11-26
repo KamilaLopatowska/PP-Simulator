@@ -2,53 +2,71 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace Simulator.Maps
+namespace Simulator.Maps;
+
+public class SmallSquareMap : Map
 {
-    public class SmallSquareMap : Map
+    private readonly Dictionary<Point, List<Creature>> _creaturesAtPoints = new();
+
+    public SmallSquareMap(int size) : base(size, size)
     {
-        // Konstruktor klasy, inicjalizujący mapę jako kwadrat o określonym rozmiarze
-        public SmallSquareMap(int size) : base(size, size)
+        if (size < 5 || size > 20)
         {
-            if (size < 5 || size > 20)
-            {
-                throw new ArgumentOutOfRangeException(nameof(size),
-                    $"Rozmiar mapy jest nieprawidłowy - wynosi {size}. Ma być w przedziale od 5 do 20.");
-            }
-
-            Console.WriteLine($"Mapa ma rozmiar {size}x{size}");
+            throw new ArgumentOutOfRangeException(nameof(size),
+                $"Rozmiar mapy jest nieprawidłowy - wynosi {size}. Ma być w przedziale od 5 do 20.");
         }
 
-        public override void Add(Creature creature, Point position)
+    }
+
+    public override void Add(Creature creature, Point position)
+    {
+        if (!Exist(position))
+            throw new ArgumentException("Pozycja znajduje się poza mapą.");
+
+        if (!_creaturesAtPoints.ContainsKey(position))
         {
-            throw new NotImplementedException("Dodawanie stworzeń do mapy jeszcze nie zaimplementowane.");
+            _creaturesAtPoints[position] = new List<Creature>();
         }
 
-        public override List<Creature>? At(int x, int y)
-        {
-            throw new NotImplementedException("Pobieranie stworzeń z mapy jeszcze nie zaimplementowane.");
-        }
+        _creaturesAtPoints[position].Add(creature);
+    }
 
-        public override bool Exist(Point p)
-        {
-           
-            return p.X >= 0 && p.X < SizeX && p.Y >= 0 && p.Y < SizeY;
-        }
+    public override void Remove(Creature creature, Point position)
+    {
+        if (!_creaturesAtPoints.ContainsKey(position))
+            throw new ArgumentException("Brak stworów na tej pozycji.");
 
-        public override Point Next(Point p, Direction d)
+        var creatures = _creaturesAtPoints[position];
+        if (creatures.Remove(creature) && creatures.Count == 0)
         {
-            Point nextPoint = p.Next(d);
-            return Exist(nextPoint) ? nextPoint : p;
+            _creaturesAtPoints.Remove(position);
         }
+    }
 
-        public override Point NextDiagonal(Point p, Direction d)
+    public override List<Creature>? At(int x, int y)
+    {
+        var position = new Point(x, y);
+        if (_creaturesAtPoints.ContainsKey(position))
         {
-            Point nextPoint = p.NextDiagonal(d);
-            return Exist(nextPoint) ? nextPoint : p;
+            return _creaturesAtPoints[position];
         }
+        return null;
+    }
 
-        public override void Remove(Creature creature, Point position)
-        {
-            throw new NotImplementedException("Usuwanie stworzeń z mapy jeszcze nie zaimplementowane.");
-        }
+    public override bool Exist(Point p)
+    {
+        return p.X >= 0 && p.X < SizeX && p.Y >= 0 && p.Y < SizeY;
+    }
+
+    public override Point Next(Point p, Direction d)
+    {
+        Point nextPoint = p.Next(d);
+        return Exist(nextPoint) ? nextPoint : p;
+    }
+
+    public override Point NextDiagonal(Point p, Direction d)
+    {
+        Point nextPoint = p.NextDiagonal(d);
+        return Exist(nextPoint) ? nextPoint : p;
     }
 }
