@@ -38,7 +38,7 @@ namespace SimConsole
             {
                 Console.Clear();
                 mapVisualizer.Draw();
-                Console.WriteLine($"Current Creature: {simulation.CurrentCreature.Name}");
+                Console.WriteLine($"Current Creature: {(object)simulation.CurrentIMappable}");
                 Console.WriteLine($"Current Move: {simulation.CurrentMoveName}");
                 Console.WriteLine("Press any key for next move...");
                 Console.ReadKey();
@@ -84,7 +84,7 @@ namespace SimConsole
             {
                 Console.Clear();
                 mapVisualizer.Draw();
-                Console.WriteLine($"Current Creature: {simulation.CurrentCreature.Name}");
+                Console.WriteLine($"Current Creature: {simulation.CurrentIMappable}");
                 Console.WriteLine($"Current Move: {simulation.CurrentMoveName}");
                 Console.WriteLine("Press any key for next move...");
                 Console.ReadKey();
