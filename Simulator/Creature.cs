@@ -5,7 +5,14 @@ public abstract class Creature
 {
     public Map? Map { get; private set; }
     public Point Position { get; set; }
-    public void InitMapAndPosition(Map map, Point position) { }
+    public void InitMapAndPosition(Map map, Point position)
+    {
+
+        Map = map;
+        Position = position;
+
+        map.Add(this, position);
+    }
 
 
 

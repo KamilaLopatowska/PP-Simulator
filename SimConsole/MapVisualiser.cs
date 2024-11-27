@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using Simulator;
+﻿using SimConsole;
 using Simulator.Maps;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace SimConsole
+namespace Simulator
 {
     public class MapVisualizer
     {
@@ -18,128 +19,64 @@ namespace SimConsole
         public void Draw()
         {
             Console.Clear();
+            Console.OutputEncoding = Encoding.UTF8;  // Enforcing UTF-8 encoding for drawing characters
 
-            for (int y = 0; y < _map.SizeY; y++)
+           
+            Console.Write(Box.TopLeft);
+            for (int x = 0; x < _map.SizeX - 1; x++)
             {
+                Console.Write($"{Box.Horizontal}{Box.TopMid}");
+            }
+            Console.WriteLine($"{Box.Horizontal}{Box.TopRight}");
 
-                // top
-                if (y == 0)
+           
+            for (int y = _map.SizeY - 1; y >= 0; y--)
+            {
+                Console.Write(Box.Vertical);  
+
+                for (int x = 0; x < _map.SizeX; x++)
                 {
-                    for (int x = 0; x < _map.SizeX * 2; x++)
-                    {
-                        if (x == 0)
-                        {
-                            Console.Write(Box.TopLeft);
-                        }
-                        else if (x % 2 == 0)
-                        {
-                            Console.Write(Box.TopMid);
-                        }
-                        else if (x == _map.SizeX * 2 - 1)
-                        {
-                            Console.Write(Box.TopRight);
-                        }
-                        else
-                        {
-                            Console.Write(Box.Horizontal);
-                        }
-                    }
-                }
-                else
-                {
-                    for (int x = 0; x < _map.SizeX * 2; x++)
-                    {
-                        if (x == 0)
-                        {
-                            Console.Write(Box.MidLeft);
-                        }
-                        else if (x % 2 == 0)
-                        {
-                            Console.Write(Box.TopMid);
-                        }
-                        else if (x == _map.SizeX * 2 - 1)
-                        {
-                            Console.Write(Box.MidRight);
-                        }
-                        else
-                        {
-                            Console.Write(Box.Horizontal);
-                        }
-                    }
-                }
+                    var creatures = _map.At(x, y);
 
-                Console.WriteLine();
-
-                // middle
-                for (int x = 0; x < _map.SizeX * 2; x++)
-                {
-                    if (x == 0)
+                    
+                    if (creatures != null && creatures.Count > 1)
                     {
-                        Console.Write(Box.Vertical);
+                        Console.Write("X"); 
                     }
-
-                    if (x % 2 == 0)
+                    else if (creatures != null && creatures.Count == 1)
                     {
-                        Console.Write(Box.Vertical);
+                        var creature = creatures.First();
+                        Console.Write(creature is Orc ? "O" : "E");  
                     }
                     else
                     {
-                        // Console.Write(" ");
+                        Console.Write(" "); 
                     }
 
-                    if (x == _map.SizeX * 2 - 1)
-                    {
-                        Console.Write(Box.Vertical);
-                    }
+                    
+                    Console.Write(Box.Vertical);
                 }
                 Console.WriteLine();
 
-                if (y != _map.SizeY - 1)
+                
+                if (y > 0)
                 {
-                    //bottom
-                    for (int x = 0; x < _map.SizeX * 2; x++)
+                    Console.Write(Box.MidLeft);
+                    for (int x = 0; x < _map.SizeX - 1; x++)
                     {
-                        if (x == 0)
-                        {
-                            Console.Write(Box.MidLeft);
-                        }
-                        else if (x % 2 == 0)
-                        {
-                            Console.Write(Box.Cross);
-                        }
-                        else if (x == _map.SizeX * 2 - 1)
-                        {
-                            Console.Write(Box.MidRight);
-                        }
-                        else
-                        {
-                            Console.Write(Box.Horizontal);
-                        }
+                        Console.Write($"{Box.Horizontal}{Box.Cross}");
                     }
-                }
-                else
-                {
-                    for (int x = 0; x < _map.SizeX * 2; x++)
-                    {
-                        if (x == 0)
-                        {
-                            Console.Write(Box.BottomLeft);
-                        }
-                        else if (x % 2 == 0)
-                        {
-                            Console.Write(Box.BottomMid);
-                        }
-                        else if (x == _map.SizeX * 2 - 1)
-                        {
-                            Console.Write(Box.BottomRight);
-                        }
-                        else
-                        {
-                            Console.Write(Box.Horizontal);
-                        }
-                    }
+                    Console.WriteLine($"{Box.Horizontal}{Box.MidRight}");
                 }
             }
+
+            // Draw the bottom border of the map
+            Console.Write(Box.BottomLeft);
+            for (int x = 0; x < _map.SizeX - 1; x++)
+            {
+                Console.Write($"{Box.Horizontal}{Box.BottomMid}");
+            }
+            Console.WriteLine($"{Box.Horizontal}{Box.BottomRight}");
         }
     }
 }
