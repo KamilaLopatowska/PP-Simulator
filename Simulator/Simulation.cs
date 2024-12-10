@@ -10,7 +10,7 @@ public class Simulation
 
     public Map Map { get; }
 
-    public List<Creature> Creatures { get; }
+    public List<IMappable> IMappables { get; }
 
     public List<Point> Positions { get; }
 
@@ -18,7 +18,7 @@ public class Simulation
 
     public bool Finished { get; private set; } = false;
 
-    public Creature CurrentCreature => Creatures[_currentMoveIndex % Creatures.Count];
+    public IMappable CurrentIMappable => IMappables[_currentMoveIndex % IMappables.Count];
 
     public string CurrentMoveName
     {
@@ -29,23 +29,23 @@ public class Simulation
         }
     }
 
-    public Simulation(Map map, List<Creature> creatures, List<Point> positions, string moves)
+    public Simulation(Map map, List<IMappable> mappables, List<Point> positions, string moves)
     {
-        if (creatures == null || creatures.Count == 0)
-            throw new ArgumentException("Creatures list cannot be empty.");
-        if (creatures.Count != positions.Count)
-            throw new ArgumentException("Number of creatures must match number of starting positions.");
+        if (mappables == null || mappables.Count == 0)
+            throw new ArgumentException("IMappables list cannot be empty.");
+        if (mappables.Count != positions.Count)
+            throw new ArgumentException("Number of mappables must match number of starting positions.");
         if (string.IsNullOrWhiteSpace(moves))
             throw new ArgumentException("Moves string cannot be empty or null.");
 
         Map = map;
-        Creatures = creatures;
+        IMappables = mappables;
         Positions = positions;
         Moves = moves;
 
-        for (int i = 0; i < creatures.Count; i++)
+        for (int i = 0; i < mappables.Count; i++)
         {
-            creatures[i].InitMapAndPosition(map, positions[i]);
+            mappables[i].InitMapAndPosition(map, positions[i]);
         }
     }
 
@@ -64,15 +64,15 @@ public class Simulation
         }
 
         Direction direction = directions[0];
-        Creature currentCreature = CurrentCreature;
+        IMappable currentIMappable = CurrentIMappable;
 
-        Point newPosition = Map.Next(currentCreature.Position, direction);
+        Point newPosition = Map.Next(currentIMappable.Position, direction);
 
         if (Map.Exist(newPosition))
         {
-            Map.Remove(currentCreature, currentCreature.Position);
-            currentCreature.Position = newPosition;
-            Map.Add(currentCreature, newPosition);
+            Map.Remove(currentIMappable, currentIMappable.Position);
+            currentIMappable.Position = newPosition;
+            Map.Add(currentIMappable, newPosition);
         }
 
         _currentMoveIndex++;

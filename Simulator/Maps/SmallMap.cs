@@ -8,7 +8,7 @@ namespace Simulator.Maps;
 
 public abstract class SmallMap : Map
 {
-    List<Creature>?[,] _fields;
+    List<IMappable>?[,] _fields;
 
     protected SmallMap(int sizeX, int sizeY) :base(sizeX, sizeY)
     {
@@ -21,6 +21,8 @@ public abstract class SmallMap : Map
         {
             throw new ArgumentOutOfRangeException(nameof(sizeY), "Too high");
         }
-        _fields = new List<Creature>?[sizeX, sizeY];
+        _fields = new List<IMappable>?[sizeX, sizeY];
     }
+
+
 }
